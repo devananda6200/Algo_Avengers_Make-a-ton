@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .message {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Login</h2>
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button id="login-btn">Login</button>
+        <p class="message" id="login-message"></p>
+    </div>
+
+    <div class="container" style="margin-top: 20px;">
+        <h2>Signup</h2>
+        <input type="email" id="signup-email" placeholder="Email" required>
+        <input type="password" id="signup-password" placeholder="Password" required>
+        <button id="signup-btn">Signup</button>
+        <p class="message" id="signup-message"></p>
+    </div>
+
+    <script>
+        document.getElementById('login-btn').addEventListener('click', async () => {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const messageElem = document.getElementById('login-message');
+
+            try {
+                const response = await fetch("http://127.0.0.1:5000/auth/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+                messageElem.textContent = result.message;
+                messageElem.style.color = response.ok ? "green" : "red";
+            } catch (error) {
+                messageElem.textContent = "Error: Could not connect to the server.";
+                messageElem.style.color = "red";
+            }
+        });
+
+        document.getElementById('signup-btn').addEventListener('click', async () => {
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const messageElem = document.getElementById('signup-message');
+
+            try {
+                const response = await fetch("http://127.0.0.1:5000/auth/signup", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+                messageElem.textContent = result.message;
+                messageElem.style.color = response.ok ? "green" : "red";
+            } catch (error) {
+                messageElem.textContent = "Error: Could not connect to the server.";
+                messageElem.style.color = "red";
+            }
+        });
+    </script>
+
+</body>
+</html>
