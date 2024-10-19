@@ -37,92 +37,86 @@ llm = ChatTogether(
 )
 # Create a retriever from the vector store
 retriever = vector_store.as_retriever(search_kwargs={"k": 5})
-template = """
+# Define input and state types
+class InputType(TypedDict):
+    input: str
+    num_questions: int
 
-You are an assistant for question-answering tasks. \
-Use the following pieces of retrieved context to answer the question. \
-If you don't know the answer, just say that you don't know. \
+class StateType(TypedDict):
+    input: str
+    num_questions: int
+    rag_result: str
+    mcq_json: str
 
-
-Question: {input}
-Context: {context}
-
-Answer:
-
-"""
-
-from langchain.prompts import ChatPromptTemplate
-from langchain.callbacks import StdOutCallbackHandler
-
-prompt = ChatPromptTemplate.from_template(template)
-handler =  StdOutCallbackHandler()
-
-combine_docs_chain = create_stuff_documents_chain(llm, prompt)
-retrieval_chain = create_retrieval_chain(retriever, combine_docs_chain)
-
-# Define MCQ generation function
-@tool
-def generate_mcq(content: str, num_questions: int) -> str:
-    """Generate MCQ questions based on the given content."""
-    prompt = f"""
-    Based on the following content, generate {num_questions} multiple-choice questions (MCQs).
-    Format the output as a JSON array with each question having the following structure:
-    {{
-        "module": "Topic of the question",
-        "question": "The question text",
-        "options": ["Option A", "Option B", "Option C", "Option D"],
-        "correct_answer": "The correct option"
-    }}
-
-    Content: {content}
+# Define RAG node
+def rag_node(state: StateType):
+    template = """
+    You are an assistant for question-answering tasks.
+    Use the following pieces of retrieved context to answer the question.
+    If you don't know the answer, just say that you don't know.
+    Question: {input}
+    Context: {context}
+    Answer:
     """
-    response = llm.invoke(prompt)
-    return response
-# Define the state type
-State = Dict[str, Any]
-
-# Define graph nodes
-def rag_node(state: State) -> State:
-    result = retrieval_chain.invoke({"input": state['user_input']})
-    state['rag_output'] = result['answer']
+    prompt = ChatPromptTemplate.from_template(template)
+    combine_docs_chain = create_stuff_documents_chain(llm, prompt)
+    retrieval_chain = create_retrieval_chain(retriever, combine_docs_chain)
+    result = retrieval_chain.invoke({"input": state["input"]})
+    state["rag_result"] = result['answer']
     return state
 
-def mcq_node(state: State) -> State:
-    mcq_json = generate_mcq(state['rag_output'], state['num_questions'])
-    state['mcq_json'] = mcq_json
+# Define MCQ generation node
+def mcq_generation_node(state: StateType):
+    mcq_prompt = f"""
+    Based on the following content, generate {state['num_questions']} multiple-choice questions (MCQs).
+    Present the questions in JSON format with the following structure:
+    {{
+        "module": "Topic of the questions",
+        "questions": [
+            {{
+                "question": "Question text",
+                "options": ["Option A", "Option B", "Option C", "Option D"],
+                "correct_answer": "Correct option"
+            }},
+            ...
+        ]
+    }}
+    
+    Content: {state['rag_result']}
+    """
+    mcq_result = llm.invoke(mcq_prompt)
+    state["mcq_json"] = mcq_result
     return state
 
 # Define the graph
-workflow = Graph()
+def define_graph():
+    workflow = Graph()
 
-# Add nodes to the graph
-workflow.add_node("RAG", rag_node)
-workflow.add_node("MCQ_Generator", mcq_node)
+    workflow.add_node("RAG", rag_node)
+    workflow.add_node("MCQ_Generation", mcq_generation_node)
 
-# Connect the nodes
-workflow.add_edge('RAG', 'MCQ_Generator')
+    workflow.set_entry_point("RAG")
+    workflow.add_edge("RAG", "MCQ_Generation")
+    workflow.add_edge("MCQ_Generation", END)
 
-# Set the entry point
-workflow.set_entry_point("RAG")
+    return workflow
+
+# Create the graph
+graph = define_graph()
 
 # Compile the graph
-app = workflow.compile()
+app = graph.compile()
 
 # Function to run the graph
-def run_graph(user_input: str, num_questions: int):
-    inputs = {
-    "user_input": user_input,
-    "num_questions": num_questions,
-    "rag_output": ""  # Initialize rag_output
-    }
-    for output in app.stream(inputs):
-        if "rag_output" in output:
-            inputs["rag_output"] = output["rag_output"]
-        if "mcq_json" in output:
-            return json.loads(output["mcq_json"])
+def run_graph(input_text: str, num_questions: int):
+    input_data: InputType = {"input": input_text, "num_questions": num_questions}
+    result = app.invoke(input_data)
+    return result
+
 # Example usage
 if __name__ == "__main__":
-    user_input = "Basics of Digital skills"
+    user_input = "Explain the process of photosynthesis"
     num_questions = 3
     result = run_graph(user_input, num_questions)
-    print(json.dumps(result, indent=2))
+    print("RAG Result:", result["rag_result"])
+    print("MCQ JSON:", result["mcq_json"])
