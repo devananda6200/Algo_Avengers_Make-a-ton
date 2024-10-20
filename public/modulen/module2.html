@@ -1,97 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Module 2 - Introduction to Devices and Hardware</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1 id="moduleTitle">Module 2</h1>
-
-  <h2>Objectives</h2>
-  <ul id="objectivesList"></ul>
-
-  <h2>Content</h2>
-  <div id="moduleContent"></div>
-
-  <script>
-    // JSON data for all modules (modulesData defined here)
-    const modulesData = {
-      "module_2": {
-        "title": "Introduction to Devices and Hardware",
-        "objectives": [
-          "Gain confidence in using basic devices.",
-          "Understand the basic components of a computer and mobile phone.",
-          "Learn basic troubleshooting steps for common device issues."
-        ],
-        "content": {
-          "section_1": {
-            "title": "Overview of Digital Devices",
-            "text": "Digital devices like mobile phones, tablets, and computers are essential tools for communication and accessing information."
-          },
-          "section_2": {
-            "title": "Parts of a Computer",
-            "text": "A typical computer consists of: \n1. **Monitor**: The screen that displays images and information. \n2. **Keyboard**: The panel with keys for typing. \n3. **Mouse**: A device used to move the pointer on the screen and select items. \n4. **CPU**: The Central Processing Unit, often referred to as the brain of the computer."
-          },
-          "section_3": {
-            "title": "Using Mobile Phones",
-            "text": "Mobile phones are used for activities such as calling, messaging, and browsing the internet."
-          },
-          "section_4": {
-            "title": "Turning On/Off and Charging Devices",
-            "text": "It is essential to know how to turn devices on and off correctly and ensure your device is charged."
-          },
-          "section_5": {
-            "title": "Basic Troubleshooting",
-            "text": "If your device isn’t working, here are some basic steps: \n1. Check if the device is charged. \n2. Restart the device. \n3. Ensure all cables are properly connected."
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2 - Introduction to Devices and Hardware</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Basic styles for better readability */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
         }
-      },
-      // Add other modules here as well
-    };
 
-    // Function to load module dynamically based on module number
-    function loadModule(moduleNumber) {
-      const moduleData = modulesData[`module_${moduleNumber}`];
-      
-      if (!moduleData) {
-        console.error(`Module ${moduleNumber} not found.`);
-        return;
-      }
+        h1, h2, h3 {
+            color: #333;
+        }
 
-      // Set the title
-      document.getElementById("moduleTitle").textContent = moduleData.title;
+        h1 {
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
 
-      // Populate the objectives
-      const objectivesList = document.getElementById("objectivesList");
-      objectivesList.innerHTML = ''; // Clear any existing content
-      moduleData.objectives.forEach(objective => {
-        const li = document.createElement('li');
-        li.textContent = objective;
-        objectivesList.appendChild(li);
-      });
+        h2 {
+            margin-top: 20px;
+        }
 
-      // Populate the content
-      const moduleContent = document.getElementById("moduleContent");
-      moduleContent.innerHTML = ''; // Clear any existing content
-      for (const section in moduleData.content) {
-        const sectionData = moduleData.content[section];
-        const sectionTitle = document.createElement('h3');
-        sectionTitle.textContent = sectionData.title;
+        ul {
+            list-style-type: square;
+            margin-left: 20px;
+        }
 
-        const sectionText = document.createElement('p');
-        sectionText.innerHTML = sectionData.text.replace(/\n/g, '<br>');
+        p {
+            margin: 10px 0;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
-        moduleContent.appendChild(sectionTitle);
-        moduleContent.appendChild(sectionText);
-      }
-    }
+        /* Button styling */
+        .btn-complete {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50; /* Green color */
+            border: none;
+            border-radius: 25px; /* Rounded edges */
+            cursor: pointer;
+            text-decoration: none; /* Remove underline for links */
+            text-align: center; /* Center text */
+        }
 
-    // Call the function to load Module 2 (or any module based on the number)
-    window.onload = () => {
-      loadModule(2);  // Change the number to load different modules dynamically
-    };
-  </script>
+        /* Button hover effect */
+        .btn-complete:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        /* Fade-out effect */
+        .fade-out {
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            body {
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="moduleTitle">Module 2</h1>
+
+    <h2>Objectives</h2>
+    <ul id="objectivesList"></ul>
+
+    <h2>Content</h2>
+    <div id="moduleContent"></div>
+
+    <!-- Complete Button -->
+    <a href="#" id="completeButton" class="btn-complete">Complete Module</a>
+
+    <script>
+        // JSON data for Module 2
+        const moduleData = {
+            "title": "Introduction to Devices and Hardware",
+            "objectives": [
+                "Gain confidence in using basic devices.",
+                "Understand the basic components of a computer and mobile phone.",
+                "Learn basic troubleshooting steps for common device issues."
+            ],
+            "content": {
+                "section_1": {
+                    "title": "Overview of Digital Devices",
+                    "text": "Digital devices like mobile phones, tablets, and computers are essential tools for communication and accessing information."
+                },
+                "section_2": {
+                    "title": "Parts of a Computer",
+                    "text": "A typical computer consists of:<br>1. <strong>Monitor</strong>: The screen that displays images and information.<br>2. <strong>Keyboard</strong>: The panel with keys for typing.<br>3. <strong>Mouse</strong>: A device used to move the pointer on the screen and select items.<br>4. <strong>CPU</strong>: The Central Processing Unit, often referred to as the brain of the computer."
+                },
+                "section_3": {
+                    "title": "Using Mobile Phones",
+                    "text": "Mobile phones are used for activities such as calling, messaging, and browsing the internet."
+                },
+                "section_4": {
+                    "title": "Turning On/Off and Charging Devices",
+                    "text": "It is essential to know how to turn devices on and off correctly and ensure your device is charged."
+                },
+                "section_5": {
+                    "title": "Basic Troubleshooting",
+                    "text": "If your device isn’t working, here are some basic steps:<br>1. Check if the device is charged.<br>2. Restart the device.<br>3. Ensure all cables are properly connected."
+                }
+            }
+        };
+
+        // Function to load module dynamically
+        function loadModule() {
+            // Set the title
+            document.getElementById("moduleTitle").textContent = moduleData.title;
+
+            // Populate the objectives
+            const objectivesList = document.getElementById("objectivesList");
+            moduleData.objectives.forEach(objective => {
+                const li = document.createElement('li');
+                li.textContent = objective;
+                objectivesList.appendChild(li);
+            });
+
+            // Populate the content
+            const moduleContent = document.getElementById("moduleContent");
+            for (const section in moduleData.content) {
+                const sectionData = moduleData.content[section];
+                const sectionTitle = document.createElement('h3');
+                sectionTitle.textContent = sectionData.title;
+
+                const sectionText = document.createElement('p');
+                sectionText.innerHTML = sectionData.text.replace(/\n/g, '<br>');
+
+                moduleContent.appendChild(sectionTitle);
+                moduleContent.appendChild(sectionText);
+            }
+        }
+
+        // Handle complete button click
+        document.getElementById("completeButton").addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent default anchor behavior
+
+            // Fade out the module content
+            const moduleContent = document.getElementById("moduleContent");
+            moduleContent.classList.add("fade-out");
+
+            // Add a tick mark to the module title
+            const moduleTitle = document.getElementById("moduleTitle");
+            moduleTitle.innerHTML += ' ✔'; // Append tick mark
+
+            // Set module completion in localStorage
+            localStorage.setItem('module2Completed', 'true');
+
+            // Redirect after a delay to allow fade-out effect
+            setTimeout(() => {
+                window.location.href = "file:///C:/Users/rini1/Algo_Avengers_Make-a-ton/public/index1.html"; // Redirect to index1.html
+            }, 1000); // Adjust time as needed for the fade-out effect
+        });
+
+        // Load the module content when the page is loaded
+        window.onload = loadModule;
+    </script>
 </body>
+
 </html>

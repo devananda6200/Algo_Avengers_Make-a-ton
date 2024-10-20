@@ -2,116 +2,149 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Course Digital Literacy</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <style>
-    /* Apply the font and default color to all text */
-    body {
-      font-family: 'Urbanist', sans-serif;
-      color: hsl(247, 35%, 19%);
-      background-color: #fef4eb;
-      margin: 0;
-      padding: 20px;
-      
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Digital Literacy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    /* Container for modules */
-    .module-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
+    <style>
+        /* Apply the font and default color to all text */
+        body {
+            font-family: 'Urbanist', sans-serif;
+            color: hsl(247, 35%, 19%);
+            background-color: #fef4eb;
+            margin: 0;
+            padding: 20px;
+        }
 
-    /* Module card styling */
-    .module-card {
-      text-decoration: none;
-      color: inherit;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      background-color: white;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
+        /* Container for modules */
+        .module-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
 
-    .module-card h4 {
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
+        /* Module card styling */
+        .module-card {
+            text-decoration: none;
+            color: inherit;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
 
-    .module-card p {
-      font-weight: 900;
-    }
+        .module-card h4 {
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
 
-    /* Hover effect */
-    .module-card:hover {
-      transform: scale(1.05);
-      background-color: #f9f9f9;
-    }
+        .module-card p {
+            font-weight: 900;
+        }
 
-    /* Heading styling */
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+        /* Hover effect */
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
 
-  </style>
+        /* Completed tick mark styling */
+        .completed {
+            color: green;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            body {
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <section class="hero" id="home" aria-label="hero" style="background-image: url('hero-bg.jpg')">
 
-  <div class="content-overlay">
-    <h1>Modules -  Digital Literacy</h1>
-    <div class="module-container">
-      <!-- Module cards -->
-      <a href="./modulen/module1.html" class="module-card">
-        <h4>Module 1</h4>
-        <p>Introduction to Digital Literacy</p>
-      </a>
-      <a href="./modulen/module2.html" class="module-card">
-        <h4>Module 2</h4>
-        <p>Deep dive into the fundamentals.</p>
-      </a>
-      <a href="./modulen/module3.html" class="module-card">
-        <h4>Module 3</h4>
-        <p>Deep dive into the fundamentals.</p>
-      </a>
-      <a href="./modulen/module4.html" class="module-card">
-        <h4>Module 4</h4>
-        <p>Deep dive into the fundamentals.</p>
-      </a>
-      <a href="m./modulen/module5.html" class="module-card">
-        <h4>Module 5</h4>
-        <p>Deep dive into the fundamentals.</p>
-      </a>
-      <a href="quiz1.html" class="module-card">
-        <h4>Quiz 1</h4>
-        <p>Let's do it!</p>
-      </a>
-      <a href="./modulen/module6.html" class="module-card">
-        <h4>Module 6</h4>
-        <p>Deep dive into the fundamentals.</p>
-      </a>
-      <a href="./modulen/module7.html" class="module-card">
-        <h4>Module 7</h4>
-        <p>Deep dive into the fundamentals.</p>
-      </a>
-      <a href="./modulen/module8.html" class="module-card">
-        <h4>Module 8</h4>
-        <p>Deep dive into the fundamentals.</p>
-      </a>
-      <a href="quiz2.html" class="module-card">
-        <h4>Quiz 2</h4>
-        <p>Review yourself.</p>
-      </a>
-    </div>
-  </div>
+    <section class="home" aria-label="hero" style="background-image: url('hero-bg.jpg')">
+        <div class="content-overlay">
+            <h1>Modules - Digital Literacy</h1>
+            <div class="module-container">
+                <!-- Module cards -->
+                <a href="./modulen/module1.html" class="module-card" id="module1Card">
+                    <h4>Module 1</h4>
+                    <p>Introduction to Digital Literacy</p>
+                </a>
+                <a href="./modulen/module2.html" class="module-card" id="module2Card">
+                    <h4>Module 2</h4>
+                    <p>Introduction to Devices and Hardware</p>
+                </a>
+                <a href="./modulen/module3.html" class="module-card" id="module3Card">
+                    <h4>Module 3</h4>
+                    <p>Introduction to the Internet and Web Browsing</p>
+                </a>
+                <a href="./modulen/module4.html" class="module-card">
+                    <h4>Module 4</h4>
+                    <p>Deep dive into the fundamentals.</p>
+                </a>
+                <a href="./modulen/module5.html" class="module-card">
+                    <h4>Module 5</h4>
+                    <p>Deep dive into the fundamentals.</p>
+                </a>
+                <a href="quiz1.html" class="module-card">
+                    <h4>Quiz 1</h4>
+                    <p>Let's do it!</p>
+                </a>
+                <a href="./modulen/module6.html" class="module-card">
+                    <h4>Module 6</h4>
+                    <p>Deep dive into the fundamentals.</p>
+                </a>
+                <a href="./modulen/module7.html" class="module-card">
+                    <h4>Module 7</h4>
+                    <p>Deep dive into the fundamentals.</p>
+                </a>
+                <a href="./modulen/module8.html" class="module-card">
+                    <h4>Module 8</h4>
+                    <p>Deep dive into the fundamentals.</p>
+                </a>
+                <a href="quiz2.html" class="module-card">
+                    <h4>Quiz 2</h4>
+                    <p>Review yourself.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Check if Module 1 is completed
+        const module1Completed = localStorage.getItem('module1Completed');
+        if (module1Completed === 'true') {
+            const module1Card = document.getElementById('module1Card');
+            module1Card.innerHTML += '<span class="completed"> ✔</span>'; // Append tick mark
+        }
+
+        // Check if Module 2 is completed
+        const module2Completed = localStorage.getItem('module2Completed');
+        if (module2Completed === 'true') {
+            const module2Card = document.getElementById('module2Card');
+            module2Card.innerHTML += '<span class="completed"> ✔</span>'; // Append tick mark
+        }
+
+        // Check if Module 3 is completed
+        const module3Completed = localStorage.getItem('module3Completed');
+        if (module3Completed === 'true') {
+            const module3Card = document.getElementById('module3Card');
+            module3Card.innerHTML += '<span class="completed"> ✔</span>'; // Append tick mark
+        }
+    </script>
 </body>
 
 </html>
