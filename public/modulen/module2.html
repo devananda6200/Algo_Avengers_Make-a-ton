@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 2 - Introduction to Devices and Hardware</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 id="moduleTitle">Module 2</h1>
+
+  <h2>Objectives</h2>
+  <ul id="objectivesList"></ul>
+
+  <h2>Content</h2>
+  <div id="moduleContent"></div>
+
+  <script>
+    // JSON data for all modules (modulesData defined here)
+    const modulesData = {
+      "module_2": {
+        "title": "Introduction to Devices and Hardware",
+        "objectives": [
+          "Gain confidence in using basic devices.",
+          "Understand the basic components of a computer and mobile phone.",
+          "Learn basic troubleshooting steps for common device issues."
+        ],
+        "content": {
+          "section_1": {
+            "title": "Overview of Digital Devices",
+            "text": "Digital devices like mobile phones, tablets, and computers are essential tools for communication and accessing information."
+          },
+          "section_2": {
+            "title": "Parts of a Computer",
+            "text": "A typical computer consists of: \n1. **Monitor**: The screen that displays images and information. \n2. **Keyboard**: The panel with keys for typing. \n3. **Mouse**: A device used to move the pointer on the screen and select items. \n4. **CPU**: The Central Processing Unit, often referred to as the brain of the computer."
+          },
+          "section_3": {
+            "title": "Using Mobile Phones",
+            "text": "Mobile phones are used for activities such as calling, messaging, and browsing the internet."
+          },
+          "section_4": {
+            "title": "Turning On/Off and Charging Devices",
+            "text": "It is essential to know how to turn devices on and off correctly and ensure your device is charged."
+          },
+          "section_5": {
+            "title": "Basic Troubleshooting",
+            "text": "If your device isn’t working, here are some basic steps: \n1. Check if the device is charged. \n2. Restart the device. \n3. Ensure all cables are properly connected."
+          }
+        }
+      },
+      // Add other modules here as well
+    };
+
+    // Function to load module dynamically based on module number
+    function loadModule(moduleNumber) {
+      const moduleData = modulesData[`module_${moduleNumber}`];
+      
+      if (!moduleData) {
+        console.error(`Module ${moduleNumber} not found.`);
+        return;
+      }
+
+      // Set the title
+      document.getElementById("moduleTitle").textContent = moduleData.title;
+
+      // Populate the objectives
+      const objectivesList = document.getElementById("objectivesList");
+      objectivesList.innerHTML = ''; // Clear any existing content
+      moduleData.objectives.forEach(objective => {
+        const li = document.createElement('li');
+        li.textContent = objective;
+        objectivesList.appendChild(li);
+      });
+
+      // Populate the content
+      const moduleContent = document.getElementById("moduleContent");
+      moduleContent.innerHTML = ''; // Clear any existing content
+      for (const section in moduleData.content) {
+        const sectionData = moduleData.content[section];
+        const sectionTitle = document.createElement('h3');
+        sectionTitle.textContent = sectionData.title;
+
+        const sectionText = document.createElement('p');
+        sectionText.innerHTML = sectionData.text.replace(/\n/g, '<br>');
+
+        moduleContent.appendChild(sectionTitle);
+        moduleContent.appendChild(sectionText);
+      }
+    }
+
+    // Call the function to load Module 2 (or any module based on the number)
+    window.onload = () => {
+      loadModule(2);  // Change the number to load different modules dynamically
+    };
+  </script>
+</body>
+</html>

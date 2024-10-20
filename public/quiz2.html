@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Literacy Quiz</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .quiz-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      max-width: 700px;
+      width: 100%;
+      margin: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: hsl(247, 35%, 19%);
+    }
+    .question {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    .options {
+      list-style-type: none;
+      padding: 0;
+    }
+    .options li {
+      margin-bottom: 10px;
+    }
+    .options input {
+      margin-right: 10px;
+    }
+    .btn {
+      background-color: hsl(247, 35%, 19%);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 16px;
+      width: 100%;
+      text-align: center;
+    }
+    .btn:hover {
+      background-color: hsl(247, 35%, 19%);
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+      text-align: center;
+    }
+    .hidden {
+      display: none;
+    }
+    .progress {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Apply the font and default color to all text */
+    body {
+      font-family: 'Urbanist', sans-serif;
+      color: hsl(247, 35%, 19%);
+      background-color: #fef4eb;
+      margin: 0;
+      padding: 20px;
+      
+    }
+
+    /* Container for modules */
+    .module-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    /* Module card styling */
+    .module-card {
+      text-decoration: none;
+      color: inherit;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .module-card h4 {
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .module-card p {
+      font-weight: 900;
+    }
+
+    /* Hover effect */
+    .module-card:hover {
+      transform: scale(1.05);
+      background-color: #f9f9f9;
+    }
+
+    /* Heading styling */
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" id="home" aria-label="hero" style="background-image: url('hero-bg.jpg')">
+
+  <div class="quiz-container">
+    <h2>Digital Literacy Quiz</h2>
+    <div class="progress" id="progress"></div>
+    <div id="quiz"></div>
+    <button class="btn" id="nextBtn" onclick="nextQuestion()">Next</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What is Digital Literacy?",
+        options: [
+          "The ability to use technology effectively",
+          "The ability to read books online",
+          "The ability to code websites",
+          "The ability to repair computers"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which of the following is a digital device?",
+        options: [
+          "Chair",
+          "Tablet",
+          "Notebook",
+          "Pen"
+        ],
+        answer: 1
+      },
+      {
+        question: "What does a web browser do?",
+        options: [
+          "Stores your files",
+          "Displays websites and allows you to access the internet",
+          "Runs games",
+          "Plays music"
+        ],
+        answer: 1
+      },
+      {
+        question: "Which of these is a secure website?",
+        options: [
+          "http://example.com",
+          "https://secure.com",
+          "www.fake-site.com",
+          "random.net"
+        ],
+        answer: 1
+      },
+      {
+        question: "What is email?",
+        options: [
+          "An app for messaging friends",
+          "A form of electronic communication over the internet",
+          "A social media platform",
+          "A video conferencing tool"
+        ],
+        answer: 1
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const quizContainer = document.getElementById('quiz');
+    const progressContainer = document.getElementById('progress');
+    const resultContainer = document.getElementById('result');
+    const nextButton = document.getElementById('nextBtn');
+
+    function loadQuiz() {
+      quizContainer.innerHTML = '';
+      const quizItem = quizData[currentQuestionIndex];
+
+      const questionDiv = document.createElement('div');
+      questionDiv.classList.add('question');
+      questionDiv.innerHTML = `<p>${currentQuestionIndex + 1}. ${quizItem.question}</p>`;
+
+      const optionsList = document.createElement('ul');
+      optionsList.classList.add('options');
+
+      quizItem.options.forEach((option, optionIndex) => {
+        const optionItem = document.createElement('li');
+        optionItem.innerHTML = `
+          <label>
+            <input type="radio" name="question${currentQuestionIndex}" value="${optionIndex}">
+            ${option}
+          </label>
+        `;
+        optionsList.appendChild(optionItem);
+      });
+
+      questionDiv.appendChild(optionsList);
+      quizContainer.appendChild(questionDiv);
+      progressContainer.innerHTML = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+    }
+
+    function nextQuestion() {
+      const selectedOption = document.querySelector(`input[name="question${currentQuestionIndex}"]:checked`);
+
+      if (selectedOption) {
+        if (parseInt(selectedOption.value) === quizData[currentQuestionIndex].answer) {
+          score++;
+        }
+
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex < quizData.length) {
+          loadQuiz();
+        } else {
+          quizContainer.classList.add('hidden');
+          nextButton.classList.add('hidden');
+          resultContainer.innerHTML = `You scored ${score} out of ${quizData.length}`;
+        }
+      } else {
+        alert('Please select an answer before proceeding.');
+      }
+    }
+
+    loadQuiz();
+  </script>
+</body>
+</html>
