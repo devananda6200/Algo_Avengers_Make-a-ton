@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,22 +10,55 @@
             font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 20px;
+            background-color: #f9f9f9;
         }
+
         h1, h2, h3 {
             color: #333;
         }
+
+        h1 {
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+
         ul {
             list-style-type: disc;
             margin-left: 20px;
         }
+
         .module {
             margin-bottom: 40px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         .section {
             margin-bottom: 20px;
         }
+
+        @media (max-width: 600px) {
+            body {
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <div class="module">
@@ -38,25 +72,22 @@
             <li>Learn basic online communication etiquette.</li>
         </ul>
 
-        <!-- Section 1 -->
         <div class="section">
             <h3>What is Email?</h3>
             <p>Email (electronic mail) is a method of sending and receiving messages over the internet. It is one of the most common forms of online communication, allowing people to send text, images, and files.</p>
         </div>
 
-        <!-- Section 2 -->
         <div class="section">
             <h3>How to Create an Email Account</h3>
             <p>Here’s how to create an email account using Gmail:</p>
             <ul>
-                <li>Go to www.gmail.com.</li>
+                <li>Go to <a href="https://www.gmail.com" target="_blank">www.gmail.com</a>.</li>
                 <li>Click 'Create account.'</li>
                 <li>Enter your name, choose a username, and set a password.</li>
                 <li>Follow the steps to verify your account with your mobile number and email.</li>
             </ul>
         </div>
 
-        <!-- Section 3 -->
         <div class="section">
             <h3>How to Send and Receive Emails</h3>
             <p>To send an email, follow these steps:</p>
@@ -68,7 +99,6 @@
             </ul>
         </div>
 
-        <!-- Section 4 -->
         <div class="section">
             <h3>Attaching Files and Images to an Email</h3>
             <p>To attach files or images:</p>
@@ -79,7 +109,6 @@
             </ul>
         </div>
 
-        <!-- Section 5 -->
         <div class="section">
             <h3>Basic Online Communication Etiquette</h3>
             <p>Here are some tips for effective online communication:</p>
@@ -92,4 +121,5 @@
     </div>
 
 </body>
+
 </html>

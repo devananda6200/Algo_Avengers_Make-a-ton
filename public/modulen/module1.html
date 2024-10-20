@@ -1,79 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Module 1 - Introduction to Digital Literacy</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1 id="moduleTitle">Module 1</h1>
-
-  <h2>Objectives</h2>
-  <ul id="objectivesList"></ul>
-
-  <h2>Content</h2>
-  <div id="moduleContent"></div>
-
-  <script>
-    // JSON data for Module 1
-    const module1Data = {
-      "title": "Introduction to Digital Literacy",
-      "objectives": [
-        "Understand the importance of technology in daily life.",
-        "Familiarize with basic technology-related terminology.",
-        "Learn about common digital devices."
-      ],
-      "content": {
-        "section_1": {
-          "title": "What is Digital Literacy?",
-          "text": "Digital literacy refers to the ability to use digital devices, such as smartphones, computers, and the internet, effectively. It is about understanding how to find, evaluate, and communicate information online. In today’s world, being digitally literate helps in accessing services, connecting with others, and solving everyday problems. Whether it’s paying bills, sending messages, or searching for information, digital literacy is a critical skill."
-        },
-        "section_2": {
-          "title": "Basic Terminology",
-          "text": "Here are a few common terms: \n1. **Smartphone**: A mobile phone that can connect to the internet and run various apps. \n2. **Computer**: A device used for browsing the internet, typing documents, and performing various tasks. \n3. **Internet**: A global network that allows devices to connect and share information. \n4. **Wi-Fi**: A wireless connection to the internet, typically available at home or in public spaces."
-        },
-        "section_3": {
-          "title": "Different Types of Digital Devices",
-          "text": "There are various digital devices that help in day-to-day activities: \n1. **Mobile Phones**: Used for calling, texting, and accessing the internet. \n2. **Tablets**: Larger than phones, good for watching videos, reading, and browsing. \n3. **Computers/Laptops**: Allow for more complex tasks like creating documents, browsing the internet, or using specialized software."
-        },
-        "section_4": {
-          "title": "Importance of Digital Literacy",
-          "text": "Understanding digital tools is essential for staying informed, connecting with others, accessing government services, and even finding jobs. As more services move online, digital literacy ensures that everyone can participate in the modern economy and society."
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1 - Introduction to Digital Literacy</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Basic styles for better readability */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
         }
-      }
-    };
 
-    // Function to load Module 1 content
-    function loadModule1() {
-      // Set the title
-      document.getElementById("moduleTitle").textContent = module1Data.title;
+        h1,
+        h2,
+        h3 {
+            color: #333;
+        }
 
-      // Populate the objectives
-      const objectivesList = document.getElementById("objectivesList");
-      module1Data.objectives.forEach(objective => {
-        const li = document.createElement('li');
-        li.textContent = objective;
-        objectivesList.appendChild(li);
-      });
+        h1 {
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
 
-      // Populate the content
-      const moduleContent = document.getElementById("moduleContent");
-      for (const section in module1Data.content) {
-        const sectionData = module1Data.content[section];
-        const sectionTitle = document.createElement('h3');
-        sectionTitle.textContent = sectionData.title;
+        h2 {
+            margin-top: 20px;
+        }
 
-        const sectionText = document.createElement('p');
-        sectionText.innerHTML = sectionData.text.replace(/\n/g, '<br>');
+        ul {
+            list-style-type: square;
+            margin-left: 20px;
+        }
 
-        moduleContent.appendChild(sectionTitle);
-        moduleContent.appendChild(sectionText);
-      }
-    }
+        p {
+            margin: 10px 0;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
-    // Load the content when the page is loaded
-    window.onload = loadModule1;
-  </script>
+        /* Button styling */
+        .btn-complete {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50; /* Green color */
+            border: none;
+            border-radius: 25px; /* Rounded edges */
+            cursor: pointer;
+            text-decoration: none; /* Remove underline for links */
+            text-align: center; /* Center text */
+        }
+
+        /* Button hover effect */
+        .btn-complete:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        /* Fade-out effect */
+        .fade-out {
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            body {
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="moduleTitle">Module 1</h1>
+
+    <h2>Objectives</h2>
+    <ul id="objectivesList"></ul>
+
+    <h2>Content</h2>
+    <div id="moduleContent"></div>
+
+    <!-- Complete Button -->
+    <a href="#" id="completeButton" class="btn-complete">Complete Module</a>
+
+    <script>
+        // JSON data for Module 1
+        const module1Data = {
+            "title": "Introduction to Digital Literacy",
+            "objectives": [
+                "Understand the importance of technology in daily life.",
+                "Familiarize with basic technology-related terminology.",
+                "Learn about common digital devices."
+            ],
+            "content": {
+                "section_1": {
+                    "title": "What is Digital Literacy?",
+                    "text": "Digital literacy refers to the ability to use digital devices, such as smartphones, computers, and the internet, effectively. It is about understanding how to find, evaluate, and communicate information online. In today’s world, being digitally literate helps in accessing services, connecting with others, and solving everyday problems. Whether it’s paying bills, sending messages, or searching for information, digital literacy is a critical skill."
+                },
+                "section_2": {
+                    "title": "Basic Terminology",
+                    "text": "Here are a few common terms:<br>1. <strong>Smartphone</strong>: A mobile phone that can connect to the internet and run various apps.<br>2. <strong>Computer</strong>: A device used for browsing the internet, typing documents, and performing various tasks.<br>3. <strong>Internet</strong>: A global network that allows devices to connect and share information.<br>4. <strong>Wi-Fi</strong>: A wireless connection to the internet, typically available at home or in public spaces."
+                },
+                "section_3": {
+                    "title": "Different Types of Digital Devices",
+                    "text": "There are various digital devices that help in day-to-day activities:<br>1. <strong>Mobile Phones</strong>: Used for calling, texting, and accessing the internet.<br>2. <strong>Tablets</strong>: Larger than phones, good for watching videos, reading, and browsing.<br>3. <strong>Computers/Laptops</strong>: Allow for more complex tasks like creating documents, browsing the internet, or using specialized software."
+                },
+                "section_4": {
+                    "title": "Importance of Digital Literacy",
+                    "text": "Understanding digital tools is essential for staying informed, connecting with others, accessing government services, and even finding jobs. As more services move online, digital literacy ensures that everyone can participate in the modern economy and society."
+                }
+            }
+        };
+
+        // Function to load Module 1 content
+        function loadModule1() {
+            // Set the title
+            document.getElementById("moduleTitle").textContent = module1Data.title;
+
+            // Populate the objectives
+            const objectivesList = document.getElementById("objectivesList");
+            module1Data.objectives.forEach(objective => {
+                const li = document.createElement('li');
+                li.textContent = objective;
+                objectivesList.appendChild(li);
+            });
+
+            // Populate the content
+            const moduleContent = document.getElementById("moduleContent");
+            for (const section in module1Data.content) {
+                const sectionData = module1Data.content[section];
+
+                // Create section title and text
+                const sectionTitle = document.createElement('h3');
+                sectionTitle.textContent = sectionData.title;
+
+                const sectionText = document.createElement('p');
+                sectionText.innerHTML = sectionData.text.replace(/\n/g, '<br>');
+
+                // Append to module content
+                moduleContent.appendChild(sectionTitle);
+                moduleContent.appendChild(sectionText);
+            }
+        }
+
+        // Handle complete button click
+        document.getElementById("completeButton").addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent default anchor behavior
+
+            // Fade out the module content
+            const moduleContent = document.getElementById("moduleContent");
+            moduleContent.classList.add("fade-out");
+
+            // Add a tick mark to the module title
+            const moduleTitle = document.getElementById("moduleTitle");
+            moduleTitle.innerHTML += ' ✔'; // Append tick mark
+
+            // Set module completion in localStorage
+            localStorage.setItem('module1Completed', 'true');
+
+            // Redirect after a delay to allow fade-out effect
+            setTimeout(() => {
+                window.location.href = "file:///C:/Users/rini1/Algo_Avengers_Make-a-ton/public/index1.html"; // Redirect to index1.html
+            }, 1000); // Adjust time as needed for the fade-out effect
+        });
+
+        // Load the content when the page is loaded
+        window.onload = loadModule1;
+    </script>
 </body>
+
 </html>
