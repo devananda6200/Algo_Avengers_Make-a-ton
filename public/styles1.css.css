@@ -1,0 +1,64 @@
+/* Style for the video background */
+#background-video {
+    position: fixed;
+    overflow: hidden;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1; /* Keep the video behind the content */
+    object-fit: cover; /* Ensures the video covers the entire background */
+  }
+  
+  /* Overlaying content styles */
+  .content-overlay {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  }
+  
+  /* Module container styles */
+  .module-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .module-card {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    padding: 15px;
+    width: 200px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+  
+  .module-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .module-card h4 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  
+  .module-card p {
+    font-size: 1em;
+    color: #555;
+  }
+  
+
+  body {
+    font-family: 'Urbanist', sans-serif;
+  }
+  

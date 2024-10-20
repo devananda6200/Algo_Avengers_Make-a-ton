@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 1 - Introduction to Digital Literacy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 id="moduleTitle">Module 1</h1>
+
+  <h2>Objectives</h2>
+  <ul id="objectivesList"></ul>
+
+  <h2>Content</h2>
+  <div id="moduleContent"></div>
+
+  <script>
+    // JSON data for Module 1
+    const module1Data = {
+      "title": "Introduction to Digital Literacy",
+      "objectives": [
+        "Understand the importance of technology in daily life.",
+        "Familiarize with basic technology-related terminology.",
+        "Learn about common digital devices."
+      ],
+      "content": {
+        "section_1": {
+          "title": "What is Digital Literacy?",
+          "text": "Digital literacy refers to the ability to use digital devices, such as smartphones, computers, and the internet, effectively. It is about understanding how to find, evaluate, and communicate information online. In today’s world, being digitally literate helps in accessing services, connecting with others, and solving everyday problems. Whether it’s paying bills, sending messages, or searching for information, digital literacy is a critical skill."
+        },
+        "section_2": {
+          "title": "Basic Terminology",
+          "text": "Here are a few common terms: \n1. **Smartphone**: A mobile phone that can connect to the internet and run various apps. \n2. **Computer**: A device used for browsing the internet, typing documents, and performing various tasks. \n3. **Internet**: A global network that allows devices to connect and share information. \n4. **Wi-Fi**: A wireless connection to the internet, typically available at home or in public spaces."
+        },
+        "section_3": {
+          "title": "Different Types of Digital Devices",
+          "text": "There are various digital devices that help in day-to-day activities: \n1. **Mobile Phones**: Used for calling, texting, and accessing the internet. \n2. **Tablets**: Larger than phones, good for watching videos, reading, and browsing. \n3. **Computers/Laptops**: Allow for more complex tasks like creating documents, browsing the internet, or using specialized software."
+        },
+        "section_4": {
+          "title": "Importance of Digital Literacy",
+          "text": "Understanding digital tools is essential for staying informed, connecting with others, accessing government services, and even finding jobs. As more services move online, digital literacy ensures that everyone can participate in the modern economy and society."
+        }
+      }
+    };
+
+    // Function to load Module 1 content
+    function loadModule1() {
+      // Set the title
+      document.getElementById("moduleTitle").textContent = module1Data.title;
+
+      // Populate the objectives
+      const objectivesList = document.getElementById("objectivesList");
+      module1Data.objectives.forEach(objective => {
+        const li = document.createElement('li');
+        li.textContent = objective;
+        objectivesList.appendChild(li);
+      });
+
+      // Populate the content
+      const moduleContent = document.getElementById("moduleContent");
+      for (const section in module1Data.content) {
+        const sectionData = module1Data.content[section];
+        const sectionTitle = document.createElement('h3');
+        sectionTitle.textContent = sectionData.title;
+
+        const sectionText = document.createElement('p');
+        sectionText.innerHTML = sectionData.text.replace(/\n/g, '<br>');
+
+        moduleContent.appendChild(sectionTitle);
+        moduleContent.appendChild(sectionText);
+      }
+    }
+
+    // Load the content when the page is loaded
+    window.onload = loadModule1;
+  </script>
+</body>
+</html>
