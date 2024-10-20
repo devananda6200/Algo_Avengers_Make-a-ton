@@ -1,14 +1,19 @@
-from flask import Blueprint, request, jsonify, render_template  # Import render_template
+from flask import Flask, request, jsonify, render_template
 from app.models import db, User
 from werkzeug.security import generate_password_hash, check_password_hash
+from app.agent import run_graph  # Import the run_graph function from your agent.py file
 
-auth_bp = Blueprint('auth', __name__)
+app = Flask(__name__)
 
-@auth_bp.route('/')
+# Configure your app here (database, etc.)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'your_database_uri'
+# db.init_app(app)
+
+@app.route('/')
 def home():
     return render_template('index.html')  # Ensure you have an index.html in your templates folder
 
-@auth_bp.route('/auth/signup', methods=['POST'])
+@app.route('/auth/signup', methods=['POST'])
 def signup():
     data = request.get_json()
     email = data.get('email')
@@ -25,8 +30,7 @@ def signup():
 
     return jsonify({"message": "User created!"}), 201
 
-
-@auth_bp.route('/auth/login', methods=['POST'])
+@app.route('/auth/login', methods=['POST'])
 def login():
     data = request.get_json()
     email = data.get('email')
@@ -38,3 +42,24 @@ def login():
         return jsonify({"message": "Login successful!"}), 200
     else:
         return jsonify({"message": "Invalid email or password!"}), 401
+
+@app.route('/generate_mcq', methods=['POST'])
+def generate_mcq():
+    data = request.get_json()
+    if not data or 'input' not in data or 'num_questions' not in data:
+        return jsonify({"error": "Missing 'input' or 'num_questions' in request body"}), 400
+
+    input_text = data['input']
+    num_questions = data['num_questions']
+
+    try:
+        result = run_graph(input_text, num_questions)
+        return jsonify({
+            "rag_result": result["rag_result"],
+            "mcq_json": result["mcq_json"]
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)

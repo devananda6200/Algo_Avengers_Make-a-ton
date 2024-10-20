@@ -16,6 +16,10 @@ from langgraph.graph import Graph
 from langgraph.prebuilt import ToolExecutor
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain.tools import tool
+from typing import TypedDict, Annotated, List
+from langgraph.graph import Graph, END
+from langchain.prompts import ChatPromptTemplate
+
 
 embeddings = FastEmbedEmbeddings()
 url = Config.QDRANT_URL
@@ -68,8 +72,7 @@ def rag_node(state: StateType):
 # Define MCQ generation node
 def mcq_generation_node(state: StateType):
     mcq_prompt = f"""
-    Based on the following content, generate {state['num_questions']} multiple-choice questions (MCQs).
-    Present the questions in JSON format with the following structure:
+    Based on the following content, generate {state['num_questions']} multiple-choice questions (MCQs).Return the output strictly in JSON format with no additional explanation or text outside the JSON structure. The JSON should follow this exact structure:
     {{
         "module": "Topic of the questions",
         "questions": [
@@ -85,7 +88,18 @@ def mcq_generation_node(state: StateType):
     Content: {state['rag_result']}
     """
     mcq_result = llm.invoke(mcq_prompt)
-    state["mcq_json"] = mcq_result
+    # Extract content from AIMessage
+    if isinstance(mcq_result, AIMessage):
+        mcq_content = mcq_result.content
+    else:
+        mcq_content = str(mcq_result)
+    
+    # Parse the string result into a JSON object
+    try:
+        state["mcq_json"] = json.loads(mcq_content)
+    except json.JSONDecodeError:
+        state["mcq_json"] = {"error": "Failed to parse MCQ result into JSON", "raw_content": mcq_content}
+    
     return state
 
 # Define the graph
@@ -115,8 +129,9 @@ def run_graph(input_text: str, num_questions: int):
 
 # Example usage
 if __name__ == "__main__":
-    user_input = "Explain the process of photosynthesis"
+    user_input = "Basics of Digital literacy"
     num_questions = 3
     result = run_graph(user_input, num_questions)
     print("RAG Result:", result["rag_result"])
-    print("MCQ JSON:", result["mcq_json"])
+    print("\nMCQ JSON:")
+    print(json.dumps(result["mcq_json"], indent=2))
