@@ -38,7 +38,33 @@
         .section {
             margin-bottom: 20px;
         }
+/* Button styling */
+.btn-complete {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50; /* Green color */
+            border: none;
+            border-radius: 25px; /* Rounded edges */
+            cursor: pointer;
+            text-decoration: none; /* Remove underline for links */
+            text-align: center; /* Center text */
+        }
 
+        /* Button hover effect */
+        .btn-complete:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        /* Fade-out effect */
+        .fade-out {
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
+
+        /* Responsive styling */
         @media (max-width: 600px) {
             body {
                 margin: 10px;
@@ -118,7 +144,32 @@
                 <li>Check for spelling and grammar errors before sending.</li>
             </ul>
         </div>
+        <!-- Complete Button -->
+        <a href="#" id="completeButton" class="btn-complete">Complete Module</a>
     </div>
+
+    <script>
+        // Function to handle module completion
+        document.getElementById("completeButton").addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent default anchor behavior
+
+            // Fade out the module content
+            const module = document.querySelector('.module');
+            module.classList.add("fade-out");
+
+            // Add a tick mark to the module title
+            const moduleTitle = document.getElementById("moduleTitle");
+            moduleTitle.innerHTML += ' ✔'; // Append tick mark
+
+            // Set module completion in localStorage
+            localStorage.setItem('module4Completed', 'true');
+
+            // Redirect after a delay to allow fade-out effect
+            setTimeout(() => {
+                window.location.href = "http://127.0.0.1:5500/public/index1.html"; // Redirect to index1.html
+            }, 1000); // Adjust time as needed for the fade-out effect
+        });
+    </script>
 
 </body>
 

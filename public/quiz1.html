@@ -131,8 +131,8 @@
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            topics: ['Introduction to Digital literacy'],
-            num_questions: 5
+            topics: ['Introduction to Digital literacy','Introduction to Devices and Hardware','Basic Internet and Connectivity','Communicating Online',' Introduction to Digital Payments'],
+            num_questions: 1
           }),
           signal: controller.signal
         });
@@ -232,13 +232,68 @@
       }
     }
 
-    function showResult() {
-      quizContainer.classList.add('hidden');
-      nextButton.classList.add('hidden');
-      progressContainer.classList.add('hidden');
+    async function showResult() {
+  quizContainer.classList.add('hidden');
+  nextButton.classList.add('hidden');
+  progressContainer.classList.add('hidden');
+  resultContainer.classList.add('hidden');
+  loaderElement.classList.remove('hidden');
+
+  const quizResponse = {
+    quiz_response: {
+      questions: quizData.map((quizItem, index) => {
+        const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+        return {
+          correct_answer: quizItem.correct_answer,
+          user_answer: selectedOption ? selectedOption.value : null,
+          options: quizItem.options,
+          question: quizItem.question,
+          topic: quizItem.topic
+        };
+      })
+    },
+    topics_covered: ["Basics of Digital literacy"]
+  };
+
+  console.log("Quiz Response Sent:", JSON.stringify(quizResponse)); // Debug log
+
+  try {
+    const response = await fetch('http://127.0.0.1:5000/mcq/evaluate-quiz', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(quizResponse),
+    });
+
+    const result = await response.json();
+    console.log("Response from Backend:", result); // Debug log
+
+    if (response.ok) {
+      loaderElement.classList.add('hidden');
       resultContainer.classList.remove('hidden');
-      resultContainer.innerHTML = `You scored ${score} out of ${quizData.length}`;
+
+      let resultHTML = `<p>You scored ${result.score} out of ${quizData.length}</p>`;
+      resultHTML += `<p>Evaluation Comment: ${result.comment}</p>`;
+
+      if (result.weak_topics && result.weak_topics.length > 0) {
+        resultHTML += `<p>Weak Topics: ${result.weak_topics.join(', ')}</p>`;
+      }
+
+      resultContainer.innerHTML = resultHTML;
+    } else {
+      resultContainer.innerHTML = `<p class="error">Error evaluating quiz: ${result.error}</p>`;
     }
+  } catch (error) {
+    console.error('Error sending quiz response:', error);
+    resultContainer.innerHTML = `<p class="error">Error sending quiz response. Please try again later.</p>`;
+  } finally {
+    loaderElement.classList.add('hidden');
+    resultContainer.classList.remove('hidden');
+  }
+}
+
+
 
     // Start the quiz by fetching data
     fetchQuizData();
